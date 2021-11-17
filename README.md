@@ -1,5 +1,8 @@
 # PasswordManager
 
+![C++](https://github.com/batuhaninan/PasswordManager/actions/workflows/c-cpp.yml/badge.svg)
+![Docker](https://github.com/batuhaninan/PasswordManager/actions/workflows/docker-image.yml/badge.svg)
+
 Basic password manager app in C++
 
 It supports GUI / CLI
