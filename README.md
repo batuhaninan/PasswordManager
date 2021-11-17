@@ -7,6 +7,6 @@ It supports GUI / CLI
 
 # Authors
 
-## Mehmet Batuhan INAN
-## Atilla Recep BASARAN
-## Emre Yasin SALLI
+#### Mehmet Batuhan INAN
+#### Atilla Recep BASARAN
+#### Emre Yasin SALLI
