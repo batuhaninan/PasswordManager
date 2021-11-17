@@ -9,11 +9,16 @@ It supports GUI / CLI
 
 
  # Docker
+
+#### Build
 ```bash
 docker build -t password-manager-image .
-docker run -it --rm --name password-manager password-manager-image
 ```
 
+#### Run
+```bash
+docker run -it --rm --name password-manager password-manager-image
+```
 
 # Authors
 
