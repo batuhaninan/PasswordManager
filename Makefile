@@ -1,5 +1,12 @@
+
+CFLAGS=-lstdc++ -pthread -std=c++17
+INCLUDES=-Isrc/DB -Isrc/GUI 
+FILES=main.cpp src/DB/initDB.cpp src/GUI/initGUI.cpp 
+OUTPUT_FILE=PasswordManager
+RM=rm -rf
+
 run:
-	g++ -lstdc++ -pthread -std=c++17 -Isrc/DB -Isrc/GUI main.cpp src/DB/initDB.cpp src/GUI/initGUI.cpp -o PasswordManager && ./PasswordManager
+	g++ $(CFLAGS) $(INCLUDES) $(FILES) -o $(OUTPUT_FILE) && ./$(OUTPUT_FILE)
 
 clear:
-	rm -rf ./PasswordManager
+	$(RM) ./$(OUTPUT_FILE)
