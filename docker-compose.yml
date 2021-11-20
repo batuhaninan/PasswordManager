@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  
+  CPP:
+    container_name: cpp
+    image: gcc
+    
+
+  DB:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: 
+      POSTGRES_HOST: 
+      PGDATA: /var/lib/postgresql/data/pgdata 
+    ports:
+      - 8000:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  Adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+
+volumes:
+  postgres_data:
+
+
+
