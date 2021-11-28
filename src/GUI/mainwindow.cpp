@@ -15,7 +15,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_submit_clicked()
+void MainWindow::on_registerSubmit_clicked()
 {
     QMessageBox msgBox;
     msgBox.setStyleSheet("background-color: white");
@@ -31,5 +31,18 @@ void MainWindow::on_submit_clicked()
     if(password!=rePassword){
         msgBox.warning(this,"Warning","Passwords do not match");
     }
-    ui->registerLabel->setText(firstName);
+    //ui->registerLabel->setText(firstName);
+}
+
+void MainWindow::on_logInSubmit_clicked()
+{
+    QString userNameData="emreyasin";
+    QString passwordData="emre123";
+    QString userName = ui->logInUserName->text();
+    QString password = ui->logInPassword->text();
+    if(userNameData==userName && passwordData==password){
+        QMessageBox::information(this,"Success","Login Success");
+    }else{
+        QMessageBox::information(this,"Failed","Login Failed");
+    }
 }

@@ -16,7 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_submit_clicked();
+    void on_registerSubmit_clicked();
+
+    void on_logInSubmit_clicked();
 
 private:
     Ui::MainWindow *ui;
