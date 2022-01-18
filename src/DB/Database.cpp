@@ -9,43 +9,48 @@ Database::Database(std::string localhost, std::string dbname, std::string postgr
 
 
 
-void Database::addNewPassword(std::string app_name,std::string username, std::string password){
+bool Database::addNewPassword(std::vector<std::string> data){
+    std::string username = data.at(0);
+    std::string password = data.at(1);
+    std::string app_name = data.at(2);
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
     pqxx::result res = wrk.exec("SELECT appname FROM PASSWORDS where userid = " + std::to_string(userid));
     for (int i=0; i<res.size();i++){
-        std::cout << res[1][0] <<"\n";
+        // This application has already been exist.
         if(res[i][0].c_str() == app_name){
-            std::cout << "Bu uygulama da daha önce şifre kayitli\neğer mevcut değeri üzerine yeni değer eklemek istiyorsaniz lütfen 1 e basiniz" << "\n";
-            int number = 0;
-            std::cin>>number;
-            if (number == 1){
-                std::string query = "UPDATE PASSWORDS SET ";
-                query = query + "appname = " + "'" + app_name + "'" + ",";
-                query = query + "username = " + "'" + username + "'" + ",";
-                query = query + "passwordhash = " + "'" + password + "'" + " ";
-                query = query + "where appname = " + "'" + app_name + "'"; 
-                wrk.exec(query);
-                wrk.commit();
-            }
-
-            break;
-        }
-        if (i == res.size()-1){
-            std::string query = "INSERT INTO PASSWORDS VALUES(DEFAULT,";
-            query = query + std::to_string(userid) + ",";
-            query = query + "'" + app_name + "'" + ",";
-            query = query + "'" + username + "'" + ",";
-            query = query + "'" + password + "'" + ")";
-            std::cout<<query<<"\n";
-            wrk.exec(query);
-            wrk.commit();
+            return false;
         }
     }
+    
+    std::string query = "INSERT INTO PASSWORDS VALUES(DEFAULT,";
+    query = query + std::to_string(userid) + ",";
+    query = query + "'" + app_name + "'" + ",";
+    query = query + "'" + username + "'" + ",";
+    query = query + "'" + password + "'" + ")";
+
+    wrk.exec(query);
+    wrk.commit();
+    return true;
 }
 
-void Database::getPassword(std::string app_name){
+bool Database::updatePassword(std::vector<std::string> data){
+    std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
+    pqxx::connection con(connection_string.c_str());
+    pqxx::work wrk(con);
+    std::string query = "update passwords set username = '";
+    std::string username = data.at(0);
+    std::string password = data.at(1);
+    std::string appName = data.at(2);
+    query = query + username + "', passwordhash = '" + password + "' where appname = '"+ appName + "' and userid = '"+std::to_string(userid) + "'";
+    wrk.exec(query);
+    wrk.commit();
+    return true;
+}
+
+std::vector<std::string> Database::getPassword(std::string app_name){
+    std::vector<std::string> result;
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
@@ -53,27 +58,31 @@ void Database::getPassword(std::string app_name){
     query = query + app_name + "' " + "and ";
     query = query + "userid = " + std::to_string(userid);
     pqxx::result res = wrk.exec(query);
-    std::cout<<"Kullanici adi = " << res[0][0] << "\n" << "Şifre = " << res[0][1] << "\n";
+    result.push_back(res[0][0].c_str());
+    result.push_back(res[0][1].c_str());
+    return result;
 }
 
 
-bool Database::signup(std::string username, std::string mail, std::string password){
+bool Database::signup(std::vector<std::string> data){
+    std::string userName = data.at(0);
+    std::string mail = data.at(1);
+    std::string password = data.at(2);
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
     pqxx::result res = wrk.exec("SELECT username,email FROM USERS");
+    // this username or mail already exist
     for (int i=0; i<res.size(); i++){
-        if (res[i][0].c_str() == username){
-            std::cout << "Bu kullanici adi adresi daha önce kayitli" <<"\n";
+        if (res[i][0].c_str() == userName){
             return 0;
         }
         else if(res[i][1].c_str() == mail){
-            std::cout << "Bu mail adresi daha önce kayitli" <<"\n";
             return 0;
         }
     }
     std::string query = "INSERT INTO USERS VALUES(DEFAULT,";
-    query = query + "'" + username + "'" + ",";
+    query = query + "'" + userName + "'" + ",";
     query = query + "'" + mail + "'" + ",";
     query = query + "'" + password + "'" + ")";
     wrk.exec(query);
@@ -81,7 +90,9 @@ bool Database::signup(std::string username, std::string mail, std::string passwo
     return true;
 }
 
-bool Database::login(std::string username, std::string password){
+bool Database::login( std::vector<std::string> data){
+    std::string username = data.at(0);
+    std::string password = data.at(1);
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
@@ -95,7 +106,7 @@ bool Database::login(std::string username, std::string password){
     return false;
 }
 
-bool Database::del(std::string app_name){
+bool Database::deletePassword(std::string app_name){
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
@@ -103,7 +114,7 @@ bool Database::del(std::string app_name){
     for (int i=0; i<res.size();i++){
         if (res[i][0].c_str() == app_name){
             std::string query ="DELETE FROM PASSWORDS WHERE ID = ";
-            query = query + res[1][1].c_str();
+            query = query + res[i][1].c_str();
             wrk.exec(query);
             wrk.commit();
             return 1;
@@ -112,14 +123,22 @@ bool Database::del(std::string app_name){
     return 0;
 }
 
-std::vector<std::string> Database::appnames(){
-    std::vector<std::string> names;
+
+std::vector<std::vector<std::string>> Database::userData(){
+    std::vector<std::vector<std::string>> data;
     std::string connection_string("host=localhost dbname=cppProject user=postgres password=root");
     pqxx::connection con(connection_string.c_str());
     pqxx::work wrk(con);
-    pqxx::result res = wrk.exec("SELECT appname FROM PASSWORDS WHERE userid = " + std::to_string(userid));
-    for( int i =0; i<res.size();i++){
-        names.push_back(res[i][0].c_str());
+    pqxx::result res = wrk.exec("SELECT username, passwordhash, appname  FROM PASSWORDS WHERE userid = " + std::to_string(userid));
+    std::vector<std::string> temp;
+    for (int i=0; i<res.size();i++){
+        temp.push_back(res[i][0].c_str());            
+        temp.push_back(res[i][1].c_str());            
+        temp.push_back(res[i][2].c_str());            
+        data.push_back(temp);
+        temp.clear();
     }
-    return names;
+    std::vector<std::vector<std::string>>::iterator row;
+    std::vector<std::string>::iterator column;
+    return data;
 }

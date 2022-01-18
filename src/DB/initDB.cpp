@@ -4,13 +4,26 @@
 #include "DB.hpp"
 
 void initDB() {
-    std::cout << "INIT DB" << std::endl;
+    std::vector<std::string> signup;
+    signup.push_back("atilla");
+    signup.push_back("atilla5202@gmail.com");
+    signup.push_back("atilla5202");
+    std::vector<std::string> login;
+    login.push_back("atilla5258");
+    login.push_back("atilla123");
+    std::vector<std::string> newPassword;
+    newPassword.push_back("atilla523258");
+    newPassword.push_back("15986");
+    newPassword.push_back("qwdferq");
+
+
+
     Database database("localhost","localhost","localhost","localhost");
-    //database.getPassword("twitter");
-    //database.signup("atilla52548","atillarbas5aran@gmail.com","atilla123");
-    database.login("atilla5258","atilla123");
-    //database.getPassword("FACEBOOK");
-    //database.addNewPassword("twitter","atilla5202","adsf");
-    database.del("twitter");
+    database.signup(signup);
+    database.login(login);
+    database.userData();
+    //database.addNewPassword(newPassword);
+    //database.updatePassword(newPassword);
+    //database.deletePassword("qwdferq");
 }
 
