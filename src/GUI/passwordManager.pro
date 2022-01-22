@@ -9,23 +9,23 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    editpage.cpp \
-    login.cpp \
+    Pages/editpage.cpp \
+    Pages/login.cpp \
     main.cpp \
-    mainpage.cpp \
-    signup.cpp
+    Pages/mainpage.cpp \
+    Pages/signup.cpp
 
 HEADERS += \
-    editpage.h \
-    login.h \
-    mainpage.h \
-    signup.h
+    Pages/editpage.h \
+    Pages/login.h \
+    Pages/mainpage.h \
+    Pages/signup.h
 
 FORMS += \
-    editpage.ui \
-    login.ui \
-    mainpage.ui \
-    signup.ui
+    UI/editpage.ui \
+    UI/login.ui \
+    UI/mainpage.ui \
+    UI/signup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
