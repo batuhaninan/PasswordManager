@@ -1,16 +1,9 @@
+#include "src/DB/initDB.hpp"
+#include "src/GUI/initGUI.hpp"
 #include <iostream>
 
-#include "DB.hpp"
-#include "GUI.hpp"
-
-
 int main() {
-	
-	std::cout << "INIT APP" << std::endl;
-	
-	initDB();
-	initGUI();
+  std::cout << "Hello, world. " << std::endl;
 
-
-	return 0;
+  return 0;
 }

@@ -1,16 +1,15 @@
 #include <iostream>
 
-#include "GUI.hpp"
-#include "login.h"
-#include "signup.h"
-#include "mainpage.h"
+#include "Pages/login.h"
+#include "Pages/mainpage.h"
+#include "Pages/signup.h"
+#include "initGUI.hpp"
 #include <QApplication>
 
-void initGUI()
-{
-	std::cout << "INIT GUI" << std::endl;
-	QApplication a(argc, argv);
-	login w;
-	w.show();
-	return a.exec();
+void initGUI(int argc, char *argv[]) {
+  std::cout << "INIT GUI" << std::endl;
+  QApplication a(argc, argv);
+  login w;
+  w.show();
+  a.exec();
 }

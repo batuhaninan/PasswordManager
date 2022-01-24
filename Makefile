@@ -54,7 +54,7 @@ OBJECTS_DIR   = ./
 
 SOURCES       = src/GUI/Pages/editpage.cpp \
 		src/GUI/Pages/login.cpp \
-		main.cpp \
+		src/GUI/initGUI.cpp \
 		src/GUI/Pages/mainpage.cpp \
 		src/GUI/Pages/signup.cpp moc_editpage.cpp \
 		moc_login.cpp \
@@ -62,7 +62,7 @@ SOURCES       = src/GUI/Pages/editpage.cpp \
 		moc_signup.cpp
 OBJECTS       = editpage.o \
 		login.o \
-		main.o \
+		initGUI.o \
 		mainpage.o \
 		signup.o \
 		moc_editpage.o \
@@ -304,7 +304,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/signup.h src/GUI/Pages/editpage.cpp \
 		src/GUI/Pages/login.cpp \
-		main.cpp \
+		src/GUI/initGUI.cpp \
 		src/GUI/Pages/mainpage.cpp \
 		src/GUI/Pages/signup.cpp
 QMAKE_TARGET  = passwordManager
@@ -797,7 +797,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/GUI/Pages/editpage.h src/GUI/Pages/login.h src/GUI/Pages/mainpage.h src/GUI/Pages/signup.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/GUI/Pages/editpage.cpp src/GUI/Pages/login.cpp main.cpp src/GUI/Pages/mainpage.cpp src/GUI/Pages/signup.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/GUI/Pages/editpage.cpp src/GUI/Pages/login.cpp src/GUI/initGUI.cpp src/GUI/Pages/mainpage.cpp src/GUI/Pages/signup.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/GUI/UI/editpage.ui src/GUI/UI/login.ui src/GUI/UI/mainpage.ui src/GUI/UI/signup.ui $(DISTDIR)/
 
 
@@ -841,6 +841,7 @@ moc_editpage.cpp: src/GUI/Pages/editpage.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/batuhaninan/Documents/Projects/PasswordManager/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/batuhaninan/Documents/Projects/PasswordManager/src/GUI -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/GUI/Pages/editpage.h -o moc_editpage.cpp
 
 moc_login.cpp: src/GUI/Pages/login.h \
+		src/DB/Database.hpp \
 		src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/editpage.h \
 		src/GUI/Pages/signup.h \
@@ -857,6 +858,7 @@ moc_mainpage.cpp: src/GUI/Pages/mainpage.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/batuhaninan/Documents/Projects/PasswordManager/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/batuhaninan/Documents/Projects/PasswordManager/src/GUI -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/GUI/Pages/mainpage.h -o moc_mainpage.cpp
 
 moc_signup.cpp: src/GUI/Pages/signup.h \
+		src/DB/Database.hpp \
 		src/GUI/Pages/login.h \
 		src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/editpage.h \
@@ -900,29 +902,36 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 editpage.o: src/GUI/Pages/editpage.cpp src/GUI/Pages/editpage.h \
 		src/GUI/Pages/mainpage.h \
-		ui_editpage.h
+		src/GUI/UI/ui_editpage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o editpage.o src/GUI/Pages/editpage.cpp
 
 login.o: src/GUI/Pages/login.cpp src/GUI/Pages/login.h \
+		src/DB/Database.hpp \
 		src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/editpage.h \
 		src/GUI/Pages/signup.h \
-		ui_login.h
+		src/GUI/UI/ui_login.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o login.o src/GUI/Pages/login.cpp
 
-main.o: main.cpp src/GUI/GUI.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+initGUI.o: src/GUI/initGUI.cpp src/GUI/Pages/login.h \
+		src/DB/Database.hpp \
+		src/GUI/Pages/mainpage.h \
+		src/GUI/Pages/editpage.h \
+		src/GUI/Pages/signup.h \
+		src/GUI/initGUI.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o initGUI.o src/GUI/initGUI.cpp
 
 mainpage.o: src/GUI/Pages/mainpage.cpp src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/editpage.h \
-		ui_mainpage.h
+		src/GUI/UI/ui_mainpage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainpage.o src/GUI/Pages/mainpage.cpp
 
 signup.o: src/GUI/Pages/signup.cpp src/GUI/Pages/signup.h \
+		src/DB/Database.hpp \
 		src/GUI/Pages/login.h \
 		src/GUI/Pages/mainpage.h \
 		src/GUI/Pages/editpage.h \
-		ui_signup.h
+		src/GUI/UI/ui_signup.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o signup.o src/GUI/Pages/signup.cpp
 
 moc_editpage.o: moc_editpage.cpp 
