@@ -10,7 +10,7 @@
 #include <QMainWindow>
 #include <QTableWidget>
 #include "editpage.h"
-
+#include "../../DB/Database.hpp"
 namespace Ui {
 class mainpage;
 }
@@ -22,6 +22,9 @@ class mainpage : public QDialog
 public:
     explicit mainpage(QWidget *parent = nullptr);
     void setDataToTable();
+    void setDatabase(Database* db) {
+        this->database = db;
+    }
     ~mainpage();
 
 private slots:
@@ -45,6 +48,7 @@ private:
         USERNAME,PASSWORD,DESCRIPTION
     };
     Ui::mainpage *ui;
+    Database* database;
 
 };
 

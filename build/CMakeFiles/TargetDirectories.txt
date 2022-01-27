@@ -1,3 +1,0 @@
-/home/batuhaninan/Documents/Projects/PasswordManager/build/CMakeFiles/rebuild_cache.dir
-/home/batuhaninan/Documents/Projects/PasswordManager/build/CMakeFiles/edit_cache.dir
-/home/batuhaninan/Documents/Projects/PasswordManager/build/CMakeFiles/PasswordManager.dir

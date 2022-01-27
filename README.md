@@ -1,27 +1,43 @@
 # PasswordManager
 
-![C++](https://github.com/batuhaninan/PasswordManager/actions/workflows/c-cpp.yml/badge.svg)
-![Docker](https://github.com/batuhaninan/PasswordManager/actions/workflows/docker-image.yml/badge.svg)
-
 Basic password manager app in C++
 
-It supports GUI / CLI
+## Dependencies
 
+QT [Download](https://www.qt.io/download)
 
- # Docker
+QT Postgresql Driver (On Ubuntu 20.04)
 
-#### Build
 ```bash
-docker build -t password-manager-image .
+sudo apt install libqt5sql5-psql
 ```
 
-#### Run
+## Build
+
+### Create Build Directory
+
 ```bash
-docker run -it --rm --name password-manager password-manager-image
+mkdir build
+cd build
 ```
 
-# Authors
+### Build & compile project
+```bash
+qmake -makefile -o Makefile ../passwordManager.pro
+make
+```
+### Run App
 
-#### Mehmet Batuhan INAN
-#### Atilla Recep BASARAN
-#### Emre Yasin SALLI
+```bash
+./passwordManager
+```
+
+## References
+
+### SHA256 Implementation [GitHub](https://github.com/System-Glitch/SHA256)
+
+## Authors
+
+Mehmet Batuhan INAN <br />
+Atilla Recep BASARAN <br />
+Emre Yasin SALLI

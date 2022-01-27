@@ -1,7 +1,0 @@
-[requires]
-libpq/13.0
-qt/6.2.2
-libpqxx/7.6.1
-
-[generators]
-cmake

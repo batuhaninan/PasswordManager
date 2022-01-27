@@ -1,5 +1,7 @@
 #include "mainpage.h"
 #include "../UI/ui_mainpage.h"
+#include <QDebug>
+#include <QDir>
 
 mainpage::mainpage(QWidget *parent) : QDialog(parent), ui(new Ui::mainpage) {
   // anasayfanın kurucu fonksiyonu constrcutor
@@ -8,20 +10,17 @@ mainpage::mainpage(QWidget *parent) : QDialog(parent), ui(new Ui::mainpage) {
   setWindowTitle("Password Manager");
   setWindowIcon(QIcon(appIconFilePath));
   setGeneralPropertiesOfTable();
-  // Database database;
-  // data=database.userData();
-  setDataToTable();
 }
 
 mainpage::~mainpage() { delete ui; }
 
 void mainpage::throwFilePathOfIcons() {
   // değişkenlere iconların dosya yolları atanıyor
-  appIconFilePath = "C:/Users/emre_/Documents/passwordManager/password.png";
-  hiddenEyeIconFilePath = "C:/Users/emre_/Documents/passwordManager/hidden.png";
-  eyeIconFilePath = "C:/Users/emre_/Documents/passwordManager/visibility.png";
-  editIconFilePath = "C:/Users/emre_/Documents/passwordManager/editing.png";
-  deleteIconFilePath = "C:/Users/emre_/Documents/passwordManager/bin.png";
+  appIconFilePath = "../src/GUI/icons/password.png";
+  hiddenEyeIconFilePath = "../src/GUI/icons/hidden.png";
+  eyeIconFilePath = "../src/GUI/icons/visibility.png";
+  editIconFilePath = "../src/GUI/icons/editing.png";
+  deleteIconFilePath = "../src/GUI/icons/bin.png";
 }
 
 void mainpage::setGeneralPropertiesOfTable() {
@@ -85,7 +84,7 @@ void mainpage::updateData(int row) {
 
   updateDataInVector(row, editedData);
   updateDataInTable(row, editedData);
-  // database.updatePassword(editedData);
+  database->updatePassword(editedData);
   editedData.clear();
 }
 
@@ -179,7 +178,7 @@ void mainpage::deleteData(int row) {
         data.erase(data.begin() + i);
       }
     }
-    // database.deletePassword(selectedData[2].toStdString());
+    database->deletePassword(selectedData[2].toStdString());
     ui->tableWidget->removeRow(row);
     break;
   case QMessageBox::No:
@@ -204,6 +203,7 @@ QWidget *mainpage::setIconForTable(QString iconFilePath) {
 
 void mainpage::setDataToTable() {
   // verileri tabloya yerleştriyor
+  data=database->userData();
 
   int order;
   QString element;
@@ -259,7 +259,7 @@ void mainpage::on_save_clicked() {
   newData = {username.toStdString(), password.toStdString(),
              description.toStdString()};
   data.push_back(newData);
-  // database.addNewPassword(newData);
+  database->addNewPassword(newData);
   int order;
   ui->tableWidget->insertRow(ui->tableWidget->rowCount());
   for (int j = 0; j < 6; j++) {

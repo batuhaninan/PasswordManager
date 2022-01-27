@@ -1,5 +1,5 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+#pragma once 
+
 #include "../../DB/Database.hpp"
 #include "mainpage.h"
 #include "signup.h"
@@ -21,6 +21,6 @@ private slots:
   void on_pushButton_clicked();
 
 private:
+  Database* database;
   Ui::login *ui;
 };
-#endif // LOGIN_H

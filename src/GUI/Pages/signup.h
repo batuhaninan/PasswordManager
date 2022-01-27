@@ -11,6 +11,9 @@ class signup : public QDialog {
 
 public:
   explicit signup(QWidget *parent = nullptr);
+  void setDatabase(Database* db) {
+      this->database = db;
+  }
   QString appIconFilePath;
   ~signup();
 
@@ -19,6 +22,7 @@ private slots:
   void on_pushButton_clicked();
 
 private:
+  Database* database;
   Ui::signup *ui;
 };
 

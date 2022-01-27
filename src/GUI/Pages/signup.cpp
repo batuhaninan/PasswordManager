@@ -4,9 +4,8 @@
 signup::signup(QWidget *parent) : QDialog(parent), ui(new Ui::signup) {
   ui->setupUi(this);
   setWindowTitle("Create Account");
-  appIconFilePath = "C:/Users/emre_/Documents/passwordManager/password.png";
+  appIconFilePath = "../src/GUI/icons/password.png";
   setWindowIcon(QIcon(appIconFilePath));
-  // Database database;
 }
 
 signup::~signup() { delete ui; }
@@ -38,7 +37,7 @@ void signup::on_registerSubmit_clicked() {
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.exec();
   } else {
-    // result=database.signup(newUserInfo);
+    result=database->signup(newUserInfo);
     if (result == 0) {
       msgBox.setText("There is a registered user with this username.");
       msgBox.setStandardButtons(QMessageBox::Ok);
