@@ -153,13 +153,8 @@ bool Database::login(std::vector<std::string> data) {
   sql_query.exec();
 
   while (sql_query.next()) {
-    std::cout << password << std::endl;
-    std::cout << sql_query.value(1).toString().toStdString() << std::endl;
-    bool deneme = sql_query.value(1).toString().toStdString() == password;
-    std::cout << deneme << std::endl;
     if (sql_query.value(1).toString().toStdString() == password) {
       setUserID(std::stoi(sql_query.value(0).toString().toStdString()));
-      std::cout << userid << std::endl;
       return true;
     }
   }
@@ -203,7 +198,6 @@ std::vector<std::vector<std::string>> Database::userData() {
   sql_query.prepare("SELECT username, passwordhash, appname  FROM PASSWORDS WHERE userid = ?");
 
   sql_query.addBindValue(QVariant(QString::fromStdString(std::to_string(userid))));
-  std::cout << "getdata " << this->userid << std::endl;
   sql_query.exec();
 
   std::vector<std::string> temp;
