@@ -1,12 +1,18 @@
 #include "login.h"
 #include "../UI/ui_login.h"
+#include <cstdlib>
 
 login::login(QWidget *parent) : QMainWindow(parent), ui(new Ui::login) {
   ui->setupUi(this);
   setWindowTitle("Password Manager");
   appIconFilePath = "../icons/password.png";
   setWindowIcon(QIcon(appIconFilePath));
-  Database* db = new Database("ella.db.elephantsql.com", "deyfnsvy", "deyfnsvy", "8sDCwqvKH_bsvMXYaYUeKUA2xqzxCIla");
+
+  std::string env_hostname = std::getenv("PM_HOST");
+  std::string user_db = std::getenv("PM_USER_DB");
+  std::string password = std::getenv("PM_PASSWORD");
+
+  Database* db = new Database(env_hostname, user_db, user_db, password);
 
   this->database = db;
 }

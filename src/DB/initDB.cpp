@@ -5,6 +5,5 @@
 
 void initDB() {
 
-  Database database("ella.db.elephantsql.com", "deyfnsvy", "deyfnsvy", "8sDCwqvKH_bsvMXYaYUeKUA2xqzxCIla");
 
 }

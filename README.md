@@ -26,6 +26,15 @@ cd build
 qmake -makefile -o Makefile ../passwordManager.pro
 make
 ```
+
+### Environment Variables
+
+#### You need to set these env variables to run Password Manager
+
+* PM_HOST: Host
+* PM_USER_DB: Username - Database
+* PM_PASSWORD: Password
+
 ### Run App
 
 ```bash
