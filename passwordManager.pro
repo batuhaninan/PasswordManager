@@ -9,6 +9,7 @@ SOURCES += \
     main.cpp \
     src/DB/Database.cpp \
     src/DB/initDB.cpp \
+    src/DB/SimpleCrypt.cpp \
     src/DB/SHA256.cpp \
     src/GUI/Pages/editpage.cpp \
     src/GUI/Pages/login.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     main.hpp \
     src/DB/Database.hpp \
     src/DB/initDB.hpp \
+    src/DB/SimpleCrypt.hpp \
     src/DB/SHA256.hpp \
     src/GUI/Pages/editpage.h \
     src/GUI/Pages/login.h \

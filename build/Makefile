@@ -55,6 +55,7 @@ OBJECTS_DIR   = ./
 SOURCES       = ../main.cpp \
 		../src/DB/Database.cpp \
 		../src/DB/initDB.cpp \
+		../src/DB/SimpleCrypt.cpp \
 		../src/DB/SHA256.cpp \
 		../src/GUI/Pages/editpage.cpp \
 		../src/GUI/Pages/login.cpp \
@@ -67,6 +68,7 @@ SOURCES       = ../main.cpp \
 OBJECTS       = main.o \
 		Database.o \
 		initDB.o \
+		SimpleCrypt.o \
 		SHA256.o \
 		editpage.o \
 		login.o \
@@ -310,6 +312,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../../passwordManager.pro ../main.hpp \
 		../src/DB/Database.hpp \
 		../src/DB/initDB.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/editpage.h \
 		../src/GUI/Pages/login.h \
@@ -317,6 +320,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../src/GUI/Pages/signup.h ../main.cpp \
 		../src/DB/Database.cpp \
 		../src/DB/initDB.cpp \
+		../src/DB/SimpleCrypt.cpp \
 		../src/DB/SHA256.cpp \
 		../src/GUI/Pages/editpage.cpp \
 		../src/GUI/Pages/login.cpp \
@@ -812,8 +816,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../main.hpp ../src/DB/Database.hpp ../src/DB/initDB.hpp ../src/DB/SHA256.hpp ../src/GUI/Pages/editpage.h ../src/GUI/Pages/login.h ../src/GUI/Pages/mainpage.h ../src/GUI/Pages/signup.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../main.cpp ../src/DB/Database.cpp ../src/DB/initDB.cpp ../src/DB/SHA256.cpp ../src/GUI/Pages/editpage.cpp ../src/GUI/Pages/login.cpp ../src/GUI/initGUI.cpp ../src/GUI/Pages/mainpage.cpp ../src/GUI/Pages/signup.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../main.hpp ../src/DB/Database.hpp ../src/DB/initDB.hpp ../src/DB/SimpleCrypt.hpp ../src/DB/SHA256.hpp ../src/GUI/Pages/editpage.h ../src/GUI/Pages/login.h ../src/GUI/Pages/mainpage.h ../src/GUI/Pages/signup.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../main.cpp ../src/DB/Database.cpp ../src/DB/initDB.cpp ../src/DB/SimpleCrypt.cpp ../src/DB/SHA256.cpp ../src/GUI/Pages/editpage.cpp ../src/GUI/Pages/login.cpp ../src/GUI/initGUI.cpp ../src/GUI/Pages/mainpage.cpp ../src/GUI/Pages/signup.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/GUI/UI/editpage.ui ../src/GUI/UI/login.ui ../src/GUI/UI/mainpage.ui ../src/GUI/UI/signup.ui $(DISTDIR)/
 
 
@@ -852,6 +856,7 @@ moc_editpage.cpp: ../src/GUI/Pages/editpage.h \
 		../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -859,6 +864,7 @@ moc_editpage.cpp: ../src/GUI/Pages/editpage.h \
 
 moc_login.cpp: ../src/GUI/Pages/login.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
@@ -872,6 +878,7 @@ moc_mainpage.cpp: ../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
 		../src/GUI/Pages/mainpage.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -879,6 +886,7 @@ moc_mainpage.cpp: ../src/GUI/Pages/mainpage.h \
 
 moc_signup.cpp: ../src/GUI/Pages/signup.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/login.h \
 		../src/GUI/Pages/mainpage.h \
@@ -926,13 +934,18 @@ main.o: ../main.cpp ../src/DB/initDB.hpp \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 Database.o: ../src/DB/Database.cpp ../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Database.o ../src/DB/Database.cpp
 
 initDB.o: ../src/DB/initDB.cpp ../src/DB/initDB.hpp \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o initDB.o ../src/DB/initDB.cpp
+
+SimpleCrypt.o: ../src/DB/SimpleCrypt.cpp ../src/DB/SimpleCrypt.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SimpleCrypt.o ../src/DB/SimpleCrypt.cpp
 
 SHA256.o: ../src/DB/SHA256.cpp ../src/DB/SHA256.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SHA256.o ../src/DB/SHA256.cpp
@@ -940,12 +953,14 @@ SHA256.o: ../src/DB/SHA256.cpp ../src/DB/SHA256.hpp
 editpage.o: ../src/GUI/Pages/editpage.cpp ../src/GUI/Pages/editpage.h \
 		../src/GUI/Pages/mainpage.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/UI/ui_editpage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o editpage.o ../src/GUI/Pages/editpage.cpp
 
 login.o: ../src/GUI/Pages/login.cpp ../src/GUI/Pages/login.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
@@ -955,6 +970,7 @@ login.o: ../src/GUI/Pages/login.cpp ../src/GUI/Pages/login.h \
 
 initGUI.o: ../src/GUI/initGUI.cpp ../src/GUI/Pages/login.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
@@ -965,12 +981,14 @@ initGUI.o: ../src/GUI/initGUI.cpp ../src/GUI/Pages/login.h \
 mainpage.o: ../src/GUI/Pages/mainpage.cpp ../src/GUI/Pages/mainpage.h \
 		../src/GUI/Pages/editpage.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/UI/ui_mainpage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainpage.o ../src/GUI/Pages/mainpage.cpp
 
 signup.o: ../src/GUI/Pages/signup.cpp ../src/GUI/Pages/signup.h \
 		../src/DB/Database.hpp \
+		../src/DB/SimpleCrypt.hpp \
 		../src/DB/SHA256.hpp \
 		../src/GUI/Pages/login.h \
 		../src/GUI/Pages/mainpage.h \

@@ -1,5 +1,4 @@
 #include "Database.hpp"
-#include <iostream>
 
 
 Database::Database(std::string hostname, std::string dbname, std::string username, std::string password) {
@@ -16,6 +15,9 @@ Database::Database(std::string hostname, std::string dbname, std::string usernam
 
   db.open();
 
+  SimpleCrypt crypto(Q_UINT64_C(0x0c2ad4a4acb9f023));
+
+  this->encryption = crypto;
   this->database = db;
 }
 
@@ -49,10 +51,12 @@ bool Database::addNewPassword(std::vector<std::string> data) {
 
   insert_query.prepare("INSERT INTO PASSWORDS VALUES(DEFAULT, ?, ?, ?, ?)");
 
+  std::string encrypted_password = this->encryption.encryptToString(QString::fromStdString(password)).toStdString();
+
   insert_query.addBindValue(QVariant(QString::fromStdString(std::to_string(userid))));
   insert_query.addBindValue(QVariant(QString::fromStdString(app_name)));
   insert_query.addBindValue(QVariant(QString::fromStdString(username)));
-  insert_query.addBindValue(QVariant(QString::fromStdString(password)));
+  insert_query.addBindValue(QVariant(QString::fromStdString(encrypted_password)));
 
   insert_query.exec();
 
@@ -68,7 +72,10 @@ bool Database::updatePassword(std::vector<std::string> data) {
   sql_query.prepare("update passwords set username = ?, passwordhash = ? where appname = ? and userid = ?");
 
   sql_query.addBindValue(QVariant(QString::fromStdString(data.at(0))));
-  sql_query.addBindValue(QVariant(QString::fromStdString(data.at(1))));
+
+  std::string encrypted_password = this->encryption.encryptToString(QString::fromStdString(data.at(1))).toStdString();
+
+  sql_query.addBindValue(QVariant(QString::fromStdString(encrypted_password)));
   sql_query.addBindValue(QVariant(QString::fromStdString(data.at(2))));
   sql_query.addBindValue(QVariant(QString::fromStdString(std::to_string(userid))));
 
@@ -92,6 +99,11 @@ std::vector<std::string> Database::getPassword(std::string app_name) {
   sql_query.exec();
 
   result.push_back(sql_query.value(0).toString().toStdString());
+
+  std::string password = sql_query.value(1).toString().toStdString();
+
+  std::string encrypted_password = this->encryption.decryptToString(QString::fromStdString(password)).toStdString();
+
   result.push_back(sql_query.value(1).toString().toStdString());
 
   return result;
@@ -155,6 +167,17 @@ bool Database::login(std::vector<std::string> data) {
   while (sql_query.next()) {
     if (sql_query.value(1).toString().toStdString() == password) {
       setUserID(std::stoi(sql_query.value(0).toString().toStdString()));
+
+      SHA256 double_hashed_password;
+      double_hashed_password.update(sql_query.value(1).toString().toStdString());
+
+      std::string key = SHA256::toString(double_hashed_password.digest());
+
+      quint64 numberBack{1};
+
+      numberBack = static_cast<quint64>(QString::fromStdString(key).toULongLong());
+
+      this->encryption.setKey(numberBack);
       return true;
     }
   }
@@ -204,7 +227,10 @@ std::vector<std::vector<std::string>> Database::userData() {
 
   while (sql_query.next()) {
     temp.push_back(sql_query.value(0).toString().toStdString());
-    temp.push_back(sql_query.value(1).toString().toStdString());
+    
+    std::string decrypted_password = this->encryption.decryptToString(QString::fromStdString(sql_query.value(1).toString().toStdString())).toStdString();
+
+    temp.push_back(decrypted_password);
     temp.push_back(sql_query.value(2).toString().toStdString());
 
     data.push_back(temp);

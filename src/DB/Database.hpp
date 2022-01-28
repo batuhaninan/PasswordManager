@@ -6,6 +6,7 @@
 #include <QString>
 #include <string>
 #include <vector>
+#include "SimpleCrypt.hpp"
 #include "SHA256.hpp"
 #include <iostream>
 
@@ -13,6 +14,7 @@ class Database {
 private:
   int userid;
   QSqlDatabase database;
+  SimpleCrypt encryption;
 
 public:
   bool signup(std::vector<std::string>);
@@ -21,6 +23,7 @@ public:
   void setUserID(int userid) {
     this->userid = userid;
   }
+
 
   bool addNewPassword(std::vector<std::string>);
   bool deletePassword(std::string);
