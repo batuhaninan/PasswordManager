@@ -1,27 +1,92 @@
 # PasswordManager
 
-![C++](https://github.com/batuhaninan/PasswordManager/actions/workflows/c-cpp.yml/badge.svg)
-![Docker](https://github.com/batuhaninan/PasswordManager/actions/workflows/docker-image.yml/badge.svg)
+Password manager is an app we made for our school project. \
+We used QT (C++) for UI and database (PostgreSQL) connections. \
+User passwords are hashed (SHA256) and every password you store is encrypted. \
+You don't need local PostgreSQL server, app connects to remote PostgreSQL server (ElephantSQL).
 
-Basic password manager app in C++
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 
-It supports GUI / CLI
+## Dependencies
 
+QT [Download](https://www.qt.io/download)
 
- # Docker
+QT Postgresql Driver
 
-#### Build
+&nbsp;
+
+To install on Ubuntu 20.04
+
 ```bash
-docker build -t password-manager-image .
+sudo apt install libqt5sql5-psql
 ```
 
-#### Run
+&nbsp;
+
+## Clone the project
+
 ```bash
-docker run -it --rm --name password-manager password-manager-image
+git clone https://github.com/batuhaninan/PasswordManager
 ```
 
-# Authors
+&nbsp;
 
-#### Mehmet Batuhan INAN
-#### Atilla Recep BASARAN
-#### Emre Yasin SALLI
+## Build
+
+&nbsp;
+
+### Create Build Directory
+
+```bash
+mkdir build
+cd build
+```
+
+&nbsp;
+
+### Build & compile project
+
+```bash
+qmake -makefile -o Makefile ../passwordManager.pro
+make
+```
+
+&nbsp;
+
+### Environment Variables
+
+&nbsp;
+
+#### You need to set these env variables to run Password Manager
+
+* PM_HOST: Host
+* PM_USER_DB: Username - Database
+* PM_PASSWORD: Password
+
+&nbsp;
+
+### Run App
+
+```bash
+./passwordManager
+```
+
+&nbsp;
+
+
+## References
+
+### SHA256 Implementation [GitHub](https://github.com/System-Glitch/SHA256)
+
+### SimpleEncrypt (.cpp & .h) [GitHub](https://github.com/Drifter321/admintool)
+
+&nbsp;
+
+## Authors
+
+Mehmet Batuhan INAN [GitHub](https://github.com/batuhaninan) \
+Atilla Recep BASARAN [GitHub](https://github.com/atilla525) \
+Emre Yasin SALLI [GitHub](https://github.com/emreysalli)

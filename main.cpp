@@ -1,16 +1,12 @@
+#include "src/DB/initDB.hpp"
+#include "src/GUI/initGUI.hpp"
 #include <iostream>
 
-#include "DB.hpp"
-#include "GUI.hpp"
+int main(int argc, char* argv[]) {
+  std::cout << "Password Manager Started" << std::endl;
 
+  initDB();
+  initGUI(argc, argv);
 
-int main() {
-	
-	std::cout << "INIT APP" << std::endl;
-	
-	initDB();
-	initGUI();
-
-
-	return 0;
+  return 0;
 }

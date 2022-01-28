@@ -1,8 +1,9 @@
+#include "initDB.hpp"
+#include "Database.hpp"
 #include <iostream>
 
-#include "DB.hpp"
 
 void initDB() {
 
-	std::cout << "INIT DB" << std::endl;
+
 }
